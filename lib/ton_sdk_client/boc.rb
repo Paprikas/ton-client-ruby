@@ -13,6 +13,10 @@ module TonSdk
 
     ParamsOfGetBocHash = Struct.new(:boc)
     ResultOfGetBocHash = Struct.new(:hash)
+
+    ParamsOfGetBocDepth = Struct.new(:boc, keyword_init: true)
+    ResultOfGetBocDepth = Struct.new(:depth)
+
     ParamsOfGetCodeFromTvc = Struct.new(:hash)
     ResultOfGetCodeFromTvc = Struct.new(:code)
     ParamsOfBocCacheGet = Struct.new(:boc_ref)
@@ -98,11 +102,16 @@ module TonSdk
 
     ResultOfDecodeTvc = Struct.new(
       :code,
+      :code_hash,
+      :code_depth,
       :data,
+      :data_hash,
+      :data_depth,
       :library,
       :tick,
       :tock,
       :split_depth,
+      :compiler_version,
       keyword_init: true
     )
 
@@ -217,6 +226,20 @@ module TonSdk
           yield NativeLibResponsetResult.new(
             result: ResultOfGetBlockchainConfig.new(
               resp.result["config_boc"]
+            )
+          )
+        else
+          yield resp
+        end
+      end
+    end
+
+    def self.get_boc_depth(ctx, params)
+      Interop::request_to_native_lib(ctx, "boc.get_boc_depth", params) do |resp|
+        if resp.success?
+          yield NativeLibResponsetResult.new(
+            result: ResultOfGetBocDepth.new(
+              resp.result["depth"]
             )
           )
         else
