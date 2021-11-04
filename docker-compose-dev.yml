@@ -9,6 +9,7 @@ services:
     volumes:
       - .:/app
       - bundle_volume:/bundle
+      - ~/.gem:/root/.local/share/gem
     env_file:
       - ./docker_dev/.env_docker
 
