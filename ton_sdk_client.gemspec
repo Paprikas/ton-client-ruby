@@ -34,4 +34,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec", "~> 3.4"
   gem.add_development_dependency "bundler", "~> 2.1"
   gem.add_development_dependency "rake", "~> 13.0"
+  gem.add_development_dependency "async-await", "~> 0.6"
 end
